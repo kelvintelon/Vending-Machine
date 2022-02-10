@@ -13,7 +13,7 @@ public class VendingMachineCLI {
 	private static final String MAIN_MENU_OPTION_PURCHASE = "Purchase";
 	private static final String EXIT_MAIN_MENU = "Exit";
 	private static final String[] MAIN_MENU_OPTIONS = { MAIN_MENU_OPTION_DISPLAY_ITEMS, MAIN_MENU_OPTION_PURCHASE };
-	private BigDecimal balance;
+	private BigDecimal balance = new BigDecimal(0);
 	private static final String FEED_MONEY = "Feed money";
 	private static final String FEED_MONEY_ONE = "Add One Dollar";
 	private static final String FEED_MONEY_TWO = "Add Two Dollars";
@@ -70,6 +70,7 @@ public class VendingMachineCLI {
 				productSelection();
 			} else if (choice.equals(FINISH_TRANSACTION)) {
 				// finish transaction method
+				finishTransaction();
 			}
 			System.out.println("Current Money Provided: $" + balance);
 		}
@@ -97,7 +98,7 @@ public class VendingMachineCLI {
 				BigDecimal cost = list.fileInventory().get(i).getPrice();
 				if (balance.compareTo(cost) >= 0) {
 					// subtracts from balance
-					balance.subtract(cost);
+					balance = balance.subtract(cost);
 					// removes from inventory
 					list.fileInventory().get(i).setInventory(list.fileInventory().get(i).getInventory() - 1);
 					System.out.println(list.fileInventory().get(i).dispensedSound());
@@ -108,17 +109,29 @@ public class VendingMachineCLI {
 		}
 	}
 
-//	public void finishTransaction() {
-//		balance;
-//	}
-//
-//	public void getChange(BigDecimal balance) {
-//		BigDecimal quarter = BigDecimal.valueOf(.25);
-//		BigDecimal quarterCount = balance.divide(quarter);
-//		BigDecimal quarterBalance = (balance.subtract(balance.divide(quarter)));
-//
-//
-//	}
+	public void finishTransaction() {
+		getChange(balance);
+		balance = new BigDecimal(0);
+	}
+
+
+	public void getChange(BigDecimal balance) {
+		double quarter = .25;
+		double balanceValue = balance.doubleValue();
+		int quarterCount = (int) ((int) balanceValue / quarter); // balance.divide(quarter);
+		BigDecimal remainingBalance = (balance.subtract(BigDecimal.valueOf((quarter * (quarterCount)))));
+		double dime = .10;
+		double remainingValue = remainingBalance.doubleValue();
+		int dimeCount = (int) ((int) remainingValue / dime);
+		BigDecimal remainingBalance2 = (remainingBalance.subtract(BigDecimal.valueOf((dime * (dimeCount)))));
+		double nickel = .05;
+		double remainingValue2 = remainingBalance2.doubleValue();
+		int nickelCount = (int) ((int) remainingValue2 / nickel);
+	//	quarterBalance = (quarterBalance.subtract(quarterBalance.divide(nickel)));
+
+		System.out.println("Return Change: Quarters: " + quarterCount + " Dime: " + dimeCount + " Nickel: " + nickelCount);
+
+	}
 
 
 
@@ -135,18 +148,15 @@ public class VendingMachineCLI {
 
 
 	public void addBalance(int money) {
+
 		if (money == 1) {
-			BigDecimal one = BigDecimal.valueOf(1.0);
-			balance.add(one);
+			balance = balance.add(new BigDecimal(1.0));
 		} if (money == 2) {
-			BigDecimal two = BigDecimal.valueOf(2.0);
-			balance.add(two);
+			balance = balance.add(new BigDecimal(2.0));
 		} if (money == 5) {
-			BigDecimal five = BigDecimal.valueOf(5.0);
-			balance.add(five);
+			balance = balance.add(new BigDecimal(5.0));
 		}if (money == 10) {
-			BigDecimal ten = BigDecimal.valueOf(10.0);
-			balance.add(ten);
+			balance = balance.add(new BigDecimal(10.0));
 		}
 
 	}
