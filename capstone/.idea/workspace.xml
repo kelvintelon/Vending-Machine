@@ -35,7 +35,7 @@
       <option name="ALTERNATIVE_JRE_PATH" value="11" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="com.techelevator.VendingMachineCLI" />
-      <module name="m1-java-capstone-vending-machine" />
+      <module name="capstone" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.techelevator.*" />
@@ -84,7 +84,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/techelevator/view/InventoryReader.java</url>
-          <line>41</line>
+          <line>42</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">

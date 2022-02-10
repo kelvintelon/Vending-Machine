@@ -1,17 +1,16 @@
 package com.techelevator.view;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
 
 public abstract class Product {
 
     private String slotLocation;
     private String name;
-    private double price;
+    private BigDecimal price;
     private String category;
     private int inventory = 5;
 
-    public Product(String slotLocation, String name, double price, String category) {
+    public Product(String slotLocation, String name, BigDecimal price, String category) {
         this.slotLocation = slotLocation;
         this.name = name;
         this.price = price;
@@ -26,7 +25,7 @@ public abstract class Product {
         return name;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
@@ -47,7 +46,7 @@ public abstract class Product {
     }
 
     public void setPrice(double price) {
-        this.price = price;
+        this.price = BigDecimal.valueOf(price);
     }
 
     public void setCategory(String category) {
