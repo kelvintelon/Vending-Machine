@@ -20,13 +20,6 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="useMavenConfig" value="true" />
-      </MavenGeneralSettings>
-    </option>
-  </component>
   <component name="ProjectId" id="24vKnFEsLzFoQ8guWJKCDLNA729" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -39,8 +32,10 @@
   </component>
   <component name="RunManager" selected="Application.VendingMachineCLI">
     <configuration name="VendingMachineCLI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="11" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="com.techelevator.VendingMachineCLI" />
-      <module name="capstone" />
+      <module name="m1-java-capstone-vending-machine" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.techelevator.*" />
