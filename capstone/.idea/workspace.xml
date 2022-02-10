@@ -17,6 +17,16 @@
       </list>
     </option>
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
   <component name="ProjectId" id="24vKnFEsLzFoQ8guWJKCDLNA729" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -26,6 +36,42 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RunManager" selected="Application.VendingMachineCLI">
+    <configuration name="VendingMachineCLI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.techelevator.VendingMachineCLI" />
+      <module name="capstone" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.techelevator.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="InventoryReaderTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="capstone" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.techelevator.view.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.techelevator.view" />
+      <option name="MAIN_CLASS_NAME" value="com.techelevator.view.InventoryReaderTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.VendingMachineCLI" />
+        <item itemvalue="JUnit.InventoryReaderTest" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -37,5 +83,21 @@
       <updated>1644505785471</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/techelevator/view/InventoryReader.java</url>
+          <line>41</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/com/techelevator/view/InventoryReaderTest.java</url>
+          <line>20</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -1,19 +1,21 @@
 package com.techelevator.view;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Product {
 
     private String slotLocation;
     private String name;
     private double price;
     private String category;
-    private int inventory;
+    private int inventory = 5;
 
-    public Product(String slotLocation, String name, double price, String category, int inventory) {
+    public Product(String slotLocation, String name, double price, String category) {
         this.slotLocation = slotLocation;
         this.name = name;
         this.price = price;
         this.category = category;
-        this.inventory = 5;
     }
 
     public String getSlotLocation() {
@@ -54,5 +56,9 @@ public abstract class Product {
 
     public void setInventory(int inventory) {
         this.inventory = inventory;
+    }
+
+    public int getInventory() {
+        return inventory;
     }
 }
