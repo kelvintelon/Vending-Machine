@@ -1,10 +1,15 @@
 package com.techelevator;
 
 import com.techelevator.view.InventoryReader;
+import com.techelevator.view.Log;
 import com.techelevator.view.Menu;
 import com.techelevator.view.Product;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.sql.SQLOutput;
 import java.util.List;
 import java.util.Scanner;
@@ -15,7 +20,7 @@ public class VendingMachineCLI {
 	private static final String MAIN_MENU_OPTION_PURCHASE = "Purchase";
 	private static final String EXIT_MAIN_MENU = "Exit";
 	private static final String[] MAIN_MENU_OPTIONS = { MAIN_MENU_OPTION_DISPLAY_ITEMS, MAIN_MENU_OPTION_PURCHASE, EXIT_MAIN_MENU };
-	private BigDecimal balance = new BigDecimal(0);
+	private BigDecimal balance = new BigDecimal(0).setScale(2, RoundingMode.HALF_UP);
 	private static final String FEED_MONEY = "Feed money";
 	private static final String FEED_MONEY_ONE = "Add One Dollar";
 	private static final String FEED_MONEY_TWO = "Add Two Dollars";
@@ -27,6 +32,7 @@ public class VendingMachineCLI {
 	private static final String[] PURCHASE_MENU_OPTIONS = {FEED_MONEY, SELECT_PRODUCT, FINISH_TRANSACTION};
 	public InventoryReader list = new InventoryReader();
 	public List<Product> newItemList = list.fileInventory();
+	public Log moneyPrint = new Log();
 
 	private Menu menu;
 
@@ -34,7 +40,7 @@ public class VendingMachineCLI {
 		this.menu = menu;
 	}
 
-	public void run() {
+	public void run() throws FileNotFoundException {
 		while (true) {
 			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
 
@@ -52,7 +58,7 @@ public class VendingMachineCLI {
 		}
 	}
 
-	public void purchaseOptions(){
+	public void purchaseOptions() throws FileNotFoundException {
 		while (true) {
 			String choice = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
 
@@ -80,7 +86,7 @@ public class VendingMachineCLI {
 	}
 
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
 		Menu menu = new Menu(System.in, System.out);
 		VendingMachineCLI cli = new VendingMachineCLI(menu);
 		cli.run();
@@ -93,10 +99,10 @@ public class VendingMachineCLI {
 		Scanner userInput = new Scanner(System.in);
 		String userChoice = userInput.nextLine();
 		for (int i = 0; i < newItemList.size(); i++) {
-			if (!(newItemList.get(i).getSlotLocation().equals(userChoice))) {
-				System.out.println("This item doesn't exist here.");
-				return;
-			}
+//			if (!(newItemList.get(i).getSlotLocation().equals(userChoice))) {
+//				System.out.println("This item doesn't exist here.");
+//				return;
+//			}
 			if (newItemList.get(i).getSlotLocation().equals(userChoice)) {
 				BigDecimal cost = newItemList.get(i).getPrice();
 				if (balance.compareTo(cost) >= 0) {
@@ -106,7 +112,13 @@ public class VendingMachineCLI {
 						return;
 					}
 					// subtracts from balance
+
+
+					BigDecimal balance1 = balance;
+					balance1 = balance1.setScale(2, RoundingMode.HALF_UP);
 					balance = balance.subtract(cost);
+					moneyPrint.moneyWriter(newItemList.get(i).getName(), newItemList.get(i).getSlotLocation(), balance1, balance);
+
 
 					// removes from inventory
 					newItemList.get(i).sellProduct();
@@ -121,9 +133,16 @@ public class VendingMachineCLI {
 		}
 	}
 
-	public void finishTransaction() {
+	public void finishTransaction() throws FileNotFoundException {
+//		getChange(balance);
+//		balance = new BigDecimal(0);
+
+
+		BigDecimal balance1 = balance;
+		balance1 = balance1.setScale(2, RoundingMode.HALF_UP);
 		getChange(balance);
 		balance = new BigDecimal(0);
+		moneyPrint.logWriter("GIVE CHANGE:", balance1, balance);
 		run();
 	}
 
@@ -140,6 +159,7 @@ public class VendingMachineCLI {
 		change = change % 5;
 
 		System.out.println("Return Change: Quarters: " + quarters + " Dime: " + dimes + " Nickel: " + nickels);
+
 
 	}
 
@@ -158,16 +178,28 @@ public class VendingMachineCLI {
 	}
 
 
-	public void addBalance(int money) {
+	public void addBalance(int money) throws FileNotFoundException {
 
 		if (money == 1) {
+			BigDecimal balance1 = new BigDecimal(1);
+			balance1 = balance1.setScale(2, RoundingMode.HALF_UP);
 			balance = balance.add(new BigDecimal(1.0));
+			moneyPrint.logWriter("FEED MONEY:", balance1, balance);
 		} if (money == 2) {
+			BigDecimal balance2 = new BigDecimal(2);
+			balance2 = balance2.setScale(2, RoundingMode.HALF_UP);
 			balance = balance.add(new BigDecimal(2.0));
+			moneyPrint.logWriter("FEED MONEY:", balance2, balance);
 		} if (money == 5) {
+			BigDecimal balance5 = new BigDecimal(5);
+			balance5 = balance5.setScale(2, RoundingMode.HALF_UP);
 			balance = balance.add(new BigDecimal(5.0));
+			moneyPrint.logWriter("FEED MONEY:", balance5, balance);
 		}if (money == 10) {
+			BigDecimal balance10 = new BigDecimal(10);
+			balance10 = balance10.setScale(2, RoundingMode.HALF_UP);
 			balance = balance.add(new BigDecimal(10.0));
+			moneyPrint.logWriter("FEED MONEY:", balance10, balance);
 		}
 
 	}
