@@ -103,11 +103,9 @@ public class VendingMachineCLI {
 
 
 	public void productSelection(List<Product> list, String input) {
+
+
 		for (int i = 0; i < list.size(); i++) {
-//			if (!(newItemList.get(i).getSlotLocation().equals(userChoice))) {
-//				System.out.println("This item doesn't exist here.");
-//				return;
-//			}
 			if (list.get(i).getSlotLocation().equals(input)) {
 				BigDecimal cost = list.get(i).getPrice();
 				if (balance.compareTo(cost) >= 0) {
@@ -135,6 +133,9 @@ public class VendingMachineCLI {
 				} else {
 					System.out.println("Feed Money");
 			}
+			} else {
+				System.out.println("This item doesn't exist here.");
+				return;
 			}
 		}
 	}

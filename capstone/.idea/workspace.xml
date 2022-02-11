@@ -31,11 +31,10 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-<<<<<<< HEAD
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../phillip-baucom-student-code/module-1/Card Game" />
-=======
+    =======
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../kelvin-telon-student-code/module-1/18_Review_Day" />
->>>>>>> aaf120fcd2869e54247293edd9483b83d96ce704
+    &gt;&gt;&gt;&gt;&gt;&gt;&gt; aaf120fcd2869e54247293edd9483b83d96ce704
     <property name="settings.editor.selected.configurable" value="preferences.editor" />
   </component>
   <component name="RunManager" selected="Application.VendingMachineCLI">
