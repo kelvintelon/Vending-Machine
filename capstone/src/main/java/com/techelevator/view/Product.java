@@ -8,13 +8,14 @@ public abstract class Product {
     private String name;
     private BigDecimal price;
     private String category;
-    private int inventory = 5;
+    private int inventory;
 
     public Product(String slotLocation, String name, BigDecimal price, String category) {
         this.slotLocation = slotLocation;
         this.name = name;
         this.price = price;
         this.category = category;
+        this.inventory = 5;
     }
 
     public String getSlotLocation() {
@@ -57,7 +58,11 @@ public abstract class Product {
         this.inventory = inventory;
     }
 
+    public void sellProduct() {
+        this.inventory -=1 ;
+    }
+
     public int getInventory() {
-        return inventory;
+        return this.inventory;
     }
 }

@@ -5,6 +5,8 @@ import com.techelevator.view.Menu;
 import com.techelevator.view.Product;
 
 import java.math.BigDecimal;
+import java.sql.SQLOutput;
+import java.util.List;
 import java.util.Scanner;
 
 public class VendingMachineCLI {
@@ -12,7 +14,7 @@ public class VendingMachineCLI {
 	private static final String MAIN_MENU_OPTION_DISPLAY_ITEMS = "Display Vending Machine Items";
 	private static final String MAIN_MENU_OPTION_PURCHASE = "Purchase";
 	private static final String EXIT_MAIN_MENU = "Exit";
-	private static final String[] MAIN_MENU_OPTIONS = { MAIN_MENU_OPTION_DISPLAY_ITEMS, MAIN_MENU_OPTION_PURCHASE };
+	private static final String[] MAIN_MENU_OPTIONS = { MAIN_MENU_OPTION_DISPLAY_ITEMS, MAIN_MENU_OPTION_PURCHASE, EXIT_MAIN_MENU };
 	private BigDecimal balance = new BigDecimal(0);
 	private static final String FEED_MONEY = "Feed money";
 	private static final String FEED_MONEY_ONE = "Add One Dollar";
@@ -24,8 +26,7 @@ public class VendingMachineCLI {
 	private static final String FINISH_TRANSACTION = "Finish Transaction";
 	private static final String[] PURCHASE_MENU_OPTIONS = {FEED_MONEY, SELECT_PRODUCT, FINISH_TRANSACTION};
 	public InventoryReader list = new InventoryReader();
-
-
+	public List<Product> newItemList = list.fileInventory();
 
 	private Menu menu;
 
@@ -45,6 +46,8 @@ public class VendingMachineCLI {
 				purchaseOptions();
 			} else if (choice.equals(EXIT_MAIN_MENU)) {
 				// exit
+				System.out.println("Thank you come again");
+				System.exit(1);
 			}
 		}
 	}
@@ -89,19 +92,28 @@ public class VendingMachineCLI {
 		System.out.println("Select a code ");
 		Scanner userInput = new Scanner(System.in);
 		String userChoice = userInput.nextLine();
-		for (int i = 0; i < list.fileInventory().size(); i++) {
-//			if (!(list.fileInventory().get(i).getSlotLocation().equals(userChoice))) {
-//				System.out.println("This item doesn't exist here.");
-//				break;
-//			}
-			if (list.fileInventory().get(i).getSlotLocation().equals(userChoice)) {
-				BigDecimal cost = list.fileInventory().get(i).getPrice();
+		for (int i = 0; i < newItemList.size(); i++) {
+			if (!(newItemList.get(i).getSlotLocation().equals(userChoice))) {
+				System.out.println("This item doesn't exist here.");
+				return;
+			}
+			if (newItemList.get(i).getSlotLocation().equals(userChoice)) {
+				BigDecimal cost = newItemList.get(i).getPrice();
 				if (balance.compareTo(cost) >= 0) {
+					// check inventory
+					if (newItemList.get(i).getInventory() == 0) {
+						System.out.println("Sold out");
+						return;
+					}
 					// subtracts from balance
 					balance = balance.subtract(cost);
+
 					// removes from inventory
-					list.fileInventory().get(i).setInventory(list.fileInventory().get(i).getInventory() - 1);
-					System.out.println(list.fileInventory().get(i).dispensedSound());
+					newItemList.get(i).sellProduct();
+
+
+					System.out.println("Quantity left of item: " + newItemList.get(i).getInventory());
+					System.out.println(newItemList.get(i).dispensedSound());
 				} else {
 					System.out.println("Feed Money");
 			}
@@ -112,24 +124,22 @@ public class VendingMachineCLI {
 	public void finishTransaction() {
 		getChange(balance);
 		balance = new BigDecimal(0);
+		run();
 	}
 
 
 	public void getChange(BigDecimal balance) {
-		double quarter = .25;
-		double balanceValue = balance.doubleValue();
-		int quarterCount = (int) ((int) balanceValue / quarter); // balance.divide(quarter);
-		BigDecimal remainingBalance = (balance.subtract(BigDecimal.valueOf((quarter * (quarterCount)))));
-		double dime = .10;
-		double remainingValue = remainingBalance.doubleValue();
-		int dimeCount = (int) ((int) remainingValue / dime);
-		BigDecimal remainingBalance2 = (remainingBalance.subtract(BigDecimal.valueOf((dime * (dimeCount)))));
-		double nickel = .05;
-		double remainingValue2 = remainingBalance2.doubleValue();
-		int nickelCount = (int) ((int) remainingValue2 / nickel);
-	//	quarterBalance = (quarterBalance.subtract(quarterBalance.divide(nickel)));
 
-		System.out.println("Return Change: Quarters: " + quarterCount + " Dime: " + dimeCount + " Nickel: " + nickelCount);
+		double balanceValue = balance.doubleValue();
+		int change = (int) (Math.ceil(balanceValue*100));
+		int quarters = Math.round((int)change/25);
+		change = change % 25;
+		int dimes = Math.round((int)change/10);
+		change = change % 10;
+		int nickels = Math.round((int)change/5);
+		change = change % 5;
+
+		System.out.println("Return Change: Quarters: " + quarters + " Dime: " + dimes + " Nickel: " + nickels);
 
 	}
 
@@ -137,12 +147,13 @@ public class VendingMachineCLI {
 
 
 	public void displayVendingMachineInventory() {
-		for (Product name: list.fileInventory()) {
+		for (Product name : newItemList) {
 			if (name.getInventory() == 0) {
-				System.out.println("Out of stock");
+				System.out.println(name.getSlotLocation() + " " + name.getName() + " is Out of stock");
+			} else {
+				System.out.println(name.getSlotLocation() + " " + name.getName() + " "
+						+ name.getPrice() + " " + name.getCategory());
 			}
-			System.out.println(name.getSlotLocation() + " " + name.getName() + " "
-					+ name.getPrice() + " " + name.getCategory());
 		}
 	}
 

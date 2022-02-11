@@ -9,10 +9,12 @@ import java.util.Scanner;
 
 public class InventoryReader {
 
+    List<Product> inventoryList = new ArrayList<>();
+
     public List<Product> fileInventory() {
         File vendingMachine = new File("vendingmachine.csv");
 
-        List<Product> inventoryList = new ArrayList<>();
+
 
         try (Scanner vendingMachineInventory = new Scanner(vendingMachine)) {
             while(vendingMachineInventory.hasNextLine()) {
@@ -42,5 +44,8 @@ public class InventoryReader {
         }
         return inventoryList;
 
+
+
     }
+
 }
