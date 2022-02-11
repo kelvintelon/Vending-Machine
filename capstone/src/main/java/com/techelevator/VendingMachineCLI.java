@@ -141,10 +141,6 @@ public class VendingMachineCLI {
 	}
 
 	public void finishTransaction() throws FileNotFoundException {
-//		getChange(balance);
-//		balance = new BigDecimal(0);
-
-
 		BigDecimal balance1 = balance;
 		balance1 = balance1.setScale(2, RoundingMode.HALF_UP);
 		getChange(balance);
