@@ -40,13 +40,17 @@ public class VendingMachineCLI {
 		this.menu = menu;
 	}
 
-	public void run() throws FileNotFoundException {
+    public VendingMachineCLI() {
+
+    }
+
+    public void run() throws FileNotFoundException {
 		while (true) {
 			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
 
 			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
 				// display vending machine items
-				displayVendingMachineInventory();
+				displayVendingMachineInventory(newItemList);
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
 				// do purchase
 				purchaseOptions();
@@ -76,10 +80,15 @@ public class VendingMachineCLI {
 				}
 			} else if (choice.equals(SELECT_PRODUCT)) {
 				//select product method
-				productSelection();
+				displayVendingMachineInventory(newItemList);
+				System.out.println("Select a code ");
+				Scanner userInput = new Scanner(System.in);
+				String userChoice = userInput.nextLine();
+				productSelection(newItemList, userChoice);
 			} else if (choice.equals(FINISH_TRANSACTION)) {
 				// finish transaction method
 				finishTransaction();
+				run();
 			}
 			System.out.println("Current Money Provided: $" + balance);
 		}
@@ -93,21 +102,17 @@ public class VendingMachineCLI {
 	}
 
 
-	public void productSelection() {
-		displayVendingMachineInventory();
-		System.out.println("Select a code ");
-		Scanner userInput = new Scanner(System.in);
-		String userChoice = userInput.nextLine();
-		for (int i = 0; i < newItemList.size(); i++) {
+	public void productSelection(List<Product> list, String input) {
+		for (int i = 0; i < list.size(); i++) {
 //			if (!(newItemList.get(i).getSlotLocation().equals(userChoice))) {
 //				System.out.println("This item doesn't exist here.");
 //				return;
 //			}
-			if (newItemList.get(i).getSlotLocation().equals(userChoice)) {
-				BigDecimal cost = newItemList.get(i).getPrice();
+			if (list.get(i).getSlotLocation().equals(input)) {
+				BigDecimal cost = list.get(i).getPrice();
 				if (balance.compareTo(cost) >= 0) {
 					// check inventory
-					if (newItemList.get(i).getInventory() == 0) {
+					if (list.get(i).getInventory() == 0) {
 						System.out.println("Sold out");
 						return;
 					}
@@ -117,15 +122,16 @@ public class VendingMachineCLI {
 					BigDecimal balance1 = balance;
 					balance1 = balance1.setScale(2, RoundingMode.HALF_UP);
 					balance = balance.subtract(cost);
-					moneyPrint.moneyWriter(newItemList.get(i).getName(), newItemList.get(i).getSlotLocation(), balance1, balance);
+					moneyPrint.moneyWriter(list.get(i).getName(), list.get(i).getSlotLocation(), balance1, balance);
 
 
 					// removes from inventory
-					newItemList.get(i).sellProduct();
+					list.get(i).sellProduct();
 
 
-					System.out.println("Quantity left of item: " + newItemList.get(i).getInventory());
-					System.out.println(newItemList.get(i).dispensedSound());
+					System.out.println("Quantity left of item: " + list.get(i).getInventory());
+					System.out.println(list.get(i).dispensedSound());
+					return;
 				} else {
 					System.out.println("Feed Money");
 			}
@@ -141,9 +147,8 @@ public class VendingMachineCLI {
 		BigDecimal balance1 = balance;
 		balance1 = balance1.setScale(2, RoundingMode.HALF_UP);
 		getChange(balance);
-		balance = new BigDecimal(0);
+		balance = new BigDecimal(0).setScale(2, RoundingMode.HALF_UP);
 		moneyPrint.logWriter("GIVE CHANGE:", balance1, balance);
-		run();
 	}
 
 
@@ -166,8 +171,8 @@ public class VendingMachineCLI {
 
 
 
-	public void displayVendingMachineInventory() {
-		for (Product name : newItemList) {
+	public void displayVendingMachineInventory(List<Product> list) {
+		for (Product name : list) {
 			if (name.getInventory() == 0) {
 				System.out.println(name.getSlotLocation() + " " + name.getName() + " is Out of stock");
 			} else {
@@ -203,4 +208,8 @@ public class VendingMachineCLI {
 		}
 
 	}
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
 }
