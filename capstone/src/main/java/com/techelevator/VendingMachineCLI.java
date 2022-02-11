@@ -115,8 +115,6 @@ public class VendingMachineCLI {
 						return;
 					}
 					// subtracts from balance
-
-
 					BigDecimal balance1 = balance;
 					balance1 = balance1.setScale(2, RoundingMode.HALF_UP);
 					balance = balance.subtract(cost);
@@ -133,7 +131,7 @@ public class VendingMachineCLI {
 				} else {
 					System.out.println("Feed Money");
 			}
-			} else {
+			} else if( i == list.size()-1 ) {
 				System.out.println("This item doesn't exist here.");
 				return;
 			}
