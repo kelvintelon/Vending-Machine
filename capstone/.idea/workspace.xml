@@ -29,15 +29,30 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../kelvin-telon-student-code/module-1/18_Review_Day" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.37356323" />
     <property name="settings.editor.selected.configurable" value="preferences.editor" />
   </component>
-  <component name="RunManager" selected="Application.VendingMachineCLI">
-    <configuration name="VendingMachineCLI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.techelevator.VendingMachineCLI" />
-      <module name="capstone" />
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Student\workspace\MyCapstones\Vending-Machine\capstone\src\main\resources" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.techelevator" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.Application">
+    <configuration name="Application" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.techelevator.Application" />
+      <module name="m1-java-capstone-vending-machine" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.techelevator.*" />
@@ -48,17 +63,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DrinkTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="capstone" />
+    <configuration name="VendingMachineCLI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.techelevator.VendingMachineCLI" />
+      <module name="m1-java-capstone-vending-machine" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.techelevator.view.*" />
+          <option name="PATTERN" value="com.techelevator.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.techelevator.view" />
-      <option name="MAIN_CLASS_NAME" value="com.techelevator.view.DrinkTest" />
-      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -67,7 +80,7 @@
       <module name="capstone" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.techelevator.view.*" />
+          <option name="PATTERN" value="com.techelevator.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -82,7 +95,7 @@
       <module name="capstone" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.techelevator.view.*" />
+          <option name="PATTERN" value="com.techelevator.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -97,7 +110,7 @@
       <module name="capstone" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.techelevator.view.*" />
+          <option name="PATTERN" value="com.techelevator.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -110,11 +123,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Application" />
         <item itemvalue="Application.VendingMachineCLI" />
         <item itemvalue="JUnit.LogTest" />
         <item itemvalue="JUnit.VendingMachineTest" />
         <item itemvalue="JUnit.GumTest" />
-        <item itemvalue="JUnit.DrinkTest" />
       </list>
     </recent_temporary>
   </component>
