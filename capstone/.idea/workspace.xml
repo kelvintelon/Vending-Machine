@@ -49,7 +49,7 @@
       <recent name="com.techelevator" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Application">
+  <component name="RunManager" selected="Application.VendingMachineCLI">
     <configuration name="Application" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.techelevator.Application" />
       <module name="m1-java-capstone-vending-machine" />
@@ -123,8 +123,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Application" />
         <item itemvalue="Application.VendingMachineCLI" />
+        <item itemvalue="Application.Application" />
         <item itemvalue="JUnit.LogTest" />
         <item itemvalue="JUnit.VendingMachineTest" />
         <item itemvalue="JUnit.GumTest" />
