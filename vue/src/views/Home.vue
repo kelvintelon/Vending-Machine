@@ -203,32 +203,39 @@
           src="../assets/chips.png"
           style="position: relative; top: 25px"
           class="vmIcon"
-          v-on:click="toggleChips($event)"
+          id="chips"
+          v-on:click.prevent="toggleContainer($event)"
         />
 
         <img
           alt="Vending Machine"
           src="../assets/candy.png"
           style="position: relative; top: 25px"
+          id="candy"
           class="vmIcon"
+          v-on:click.prevent="toggleContainer($event)"
         />
         <img
           alt="Vending Machine"
           src="../assets/drinks.png"
           style="position: relative; top: 25px"
+          id="drinks"
           class="vmIcon"
+          v-on:click.prevent="toggleContainer($event)"
         />
         <img
           alt="Vending Machine"
           src="../assets/gum.png"
           style="position: relative; top: 25px"
+          id="gum"
           class="vmIcon"
+          v-on:click.prevent="toggleContainer($event)"
         />
       </div>
     </div>
-    
-    <div class="popupContainer" v-if="visibleChips">
-      <table class="table table-primary table-hover table-curved ">
+
+    <div class="popupContainer" v-if="visibleContainer">
+      <table class="table table-primary table-hover table-curved">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -238,24 +245,30 @@
         </thead>
         <tbody>
           <tr>
-            <th scope="row">A1</th>
-            <td>Potato Crisps</td>
-            <td>1</td>
+            <th scope="row">{{ inventoryList[startingPoint].slotLocation }}</th>
+            <td>{{ inventoryList[startingPoint].name }}</td>
+            <td>{{ inventoryList[startingPoint].price }}</td>
           </tr>
           <tr>
-            <th scope="row">A2</th>
-            <td>Stackers</td>
-            <td>1</td>
+            <th scope="row">
+              {{ inventoryList[startingPoint + 1].slotLocation }}
+            </th>
+            <td>{{ inventoryList[startingPoint + 1].name }}</td>
+            <td>{{ inventoryList[startingPoint + 1].price }}</td>
           </tr>
           <tr>
-            <th scope="row">A3</th>
-            <td>Grain Waves</td>
-            <td>1</td>
+            <th scope="row">
+              {{ inventoryList[startingPoint + 2].slotLocation }}
+            </th>
+            <td>{{ inventoryList[startingPoint + 2].name }}</td>
+            <td>{{ inventoryList[startingPoint + 2].price }}</td>
           </tr>
           <tr>
-            <th scope="row">A4</th>
-            <td>Cloud Popcorn</td>
-            <td>1</td>
+            <th scope="row">
+              {{ inventoryList[startingPoint + 3].slotLocation }}
+            </th>
+            <td>{{ inventoryList[startingPoint + 3].name }}</td>
+            <td>{{ inventoryList[startingPoint + 3].price }}</td>
           </tr>
         </tbody>
       </table>
@@ -265,13 +278,16 @@
 
 <script>
 // @ is an alias to /src
+import vmService from "../services/vmServices";
 
 export default {
   name: "Home",
   data() {
     return {
       slotLocation: "",
-      visibleChips: false,
+      visibleContainer: false,
+      inventoryList: {},
+      startingPoint: "",
     };
   },
   components: {},
@@ -283,6 +299,7 @@ export default {
       this.slotLocation = "";
     },
     selectItem() {
+      // this should be use on the table rows to select an item off there with a click.
       // use the #id or class name orsomething to fire off if conditions
       const elem = this.$refs.myBtn;
       elem.click();
@@ -291,16 +308,133 @@ export default {
         elem.classList.remove("active");
       }, 90);
     },
-    toggleChips(event) {
-      this.visibleChips = !this.visibleChips;
-      if (this.visibleChips == true) {
-        event.target.classList.add('selected')
-        this.$el.querySelector("#vmPicker").scrollIntoView()
-      } else {
-        event.target.classList.remove('selected')
+    toggleContainer(event) {
+      if (event.target.id == "chips") {
+        this.$el.querySelector("#vmPicker").scrollIntoView();
+        this.startingPoint = 0;
+
+        // if the container is already visible and this element has been selected 
+        if (
+          this.visibleContainer == true &&
+          (event.target.classList.contains("selected"))
+        ) {
+          this.visibleContainer = false;
+          event.target.classList.remove("selected");
+        }
+
+      // if the container is already visible and this element has not been selected
+        if (
+          this.visibleContainer == true &&
+          !(event.target.classList.contains("selected"))
+        ) {
+          event.target.classList.add("selected");
+        }
+
+      // if this container is not visible and this element has not been selected
+        if (
+          this.visibleContainer == false &&
+          !(event.target.classList.contains("select"))
+        ) {
+          this.visibleContainer = true;
+          event.target.classList.add("selected");
+        }
+
+        // if this container is not visible and this element has been selected (WE DON'T WANT THIS CONDITION)
+        if (
+          this.visibleContainer == false &&
+          (event.target.classList.contains("select"))
+        ) {
+          this.visibleContainer = true;
+          event.target.classList.add("selected");
+        }
       }
 
-    }
+      if (event.target.id == "candy") {
+        this.$el.querySelector("#vmPicker").scrollIntoView();
+        this.startingPoint = 4;
+        if (
+          this.visibleContainer == true &&
+          (event.target.classList.contains("selected"))
+        ) {
+          this.visibleContainer = false;
+          event.target.classList.remove("selected");
+        }
+
+        if (
+          this.visibleContainer == true &&
+          !(event.target.classList.contains("selected"))
+        ) {
+          event.target.classList.add("selected");
+        }
+
+        if (
+          this.visibleContainer == false &&
+          !(event.target.classList.contains("select"))
+        ) {
+          this.visibleContainer = true;
+          event.target.classList.add("selected");
+        }
+      }
+
+      if (event.target.id == "drinks") {
+        this.$el.querySelector("#vmPicker").scrollIntoView();
+        this.startingPoint = 8;
+        if (
+          this.visibleContainer == true &&
+          event.target.classList.contains("selected")
+        ) {
+          this.visibleContainer = false;
+          event.target.classList.remove("selected");
+        }
+
+        if (
+          this.visibleContainer == true &&
+          !event.target.classList.contains("selected")
+        ) {
+          event.target.classList.add("selected");
+        }
+
+        if (
+          this.visibleContainer == false &&
+          !event.target.classList.contains("select")
+        ) {
+          this.visibleContainer = true;
+          event.target.classList.add("selected");
+        }
+      }
+
+      if (event.target.id == "gum") {
+        this.$el.querySelector("#vmPicker").scrollIntoView();
+        this.startingPoint = 12;
+        if (
+          this.visibleContainer == true &&
+          event.target.classList.contains("selected")
+        ) {
+          this.visibleContainer = false;
+          event.target.classList.remove("selected");
+        }
+
+        if (
+          this.visibleContainer == true &&
+          !event.target.classList.contains("selected")
+        ) {
+          event.target.classList.add("selected");
+        }
+
+        if (
+          this.visibleContainer == false &&
+          !event.target.classList.contains("select")
+        ) {
+          this.visibleContainer = true;
+          event.target.classList.add("selected");
+        }
+      }
+    },
+  },
+  created() {
+    vmService.getInventoryList().then((response) => {
+      this.inventoryList = response.data;
+    });
   },
 };
 </script>
@@ -334,7 +468,7 @@ export default {
   position: absolute;
   left: 37%;
   top: 67%;
-  z-index: 1000;
+  z-index: 999;
   color: rgb(66, 135, 214);
   border-color: rgb(66, 135, 214);
   border-style: solid;
@@ -350,7 +484,7 @@ export default {
   align-items: center;
 }
 
-img.selected {
+.selected {
   border: 3px solid rgb(66, 135, 214);
   padding-top: 5px;
 }
@@ -380,33 +514,33 @@ img.selected {
 .table-curved {
   margin-top: 20px;
   width: 70%;
-  
-   border-collapse: separate;
-   border: solid #ccc 1px;
-   border-radius: 6px;
-   border-left: 0px;
-   border-top: 0px;
-   
+
+  border-collapse: separate;
+  border: solid #ccc 1px;
+  border-radius: 6px;
+  border-left: 0px;
+  border-top: 0px;
 }
 .table-curved > thead:first-child > tr:first-child > th {
-    border-bottom: 0px;
-    border-top: solid #ccc 1px;
+  border-bottom: 0px;
+  border-top: solid #ccc 1px;
 }
-.table-curved td, .table-curved th {
-    border-left: 1px solid #ccc;
-    border-top: 1px solid #ccc;
+.table-curved td,
+.table-curved th {
+  border-left: 1px solid #ccc;
+  border-top: 1px solid #ccc;
 }
 .table-curved > :first-child > :first-child > :first-child {
-    border-radius: 6px 0 0 0;
+  border-radius: 6px 0 0 0;
 }
 .table-curved > :first-child > :first-child > :last-child {
-    border-radius: 0 6px 0 0;
+  border-radius: 0 6px 0 0;
 }
 .table-curved > :last-child > :last-child > :first-child {
-    border-radius: 0 0 0 6px;
+  border-radius: 0 0 0 6px;
 }
 .table-curved > :last-child > :last-child > :last-child {
-    border-radius: 0 0 6px 0;
+  border-radius: 0 0 6px 0;
 }
 
 .itemList {
