@@ -19,7 +19,8 @@
           placeholder="Slot Location"
           aria-label="Slot Location"
           aria-describedby="button-addon2"
-          v-model="slotLocation"
+          v-model="displaySlotLocation"
+          disabled="disabled"
         />
         <button
           class="btn btn-primary"
@@ -31,7 +32,12 @@
         </button>
       </div>
       <div style="padding-bottom: 10px">You selected:</div>
-      <div style="padding-bottom: 10px">A1 Doritos $1.90</div>
+      <div style="padding-bottom: 10px">
+        #{{ selectedSlotLocation ? selectedSlotLocation : "None" }}
+        {{ selectedItemName }} ${{
+          selectedItemPrice ? selectedItemPrice : "0"
+        }}
+      </div>
       <div
         class="btn-toolbar justify-content-between"
         role="toolbar"
@@ -42,7 +48,7 @@
             type="radio"
             class="btn btn-outline-warning"
             v-on:click="changeSlot($event)"
-            ref="myBtn"
+            ref="a1Btn"
           >
             A1
           </button>
@@ -50,6 +56,7 @@
             type="button"
             class="btn btn-outline-warning"
             v-on:click="changeSlot($event)"
+            ref="a2Btn"
           >
             A2
           </button>
@@ -57,6 +64,7 @@
             type="button"
             class="btn btn-outline-warning"
             v-on:click="changeSlot($event)"
+            ref="a3Btn"
           >
             A3
           </button>
@@ -64,6 +72,7 @@
             type="button"
             class="btn btn-outline-warning"
             v-on:click="changeSlot($event)"
+            ref="a4Btn"
           >
             A4
           </button>
@@ -79,6 +88,7 @@
             type="button"
             class="btn btn-outline-warning"
             v-on:click="changeSlot($event)"
+            ref="b1Btn"
           >
             B1
           </button>
@@ -86,6 +96,7 @@
             type="button"
             class="btn btn-outline-warning"
             v-on:click="changeSlot($event)"
+            ref="b2Btn"
           >
             B2
           </button>
@@ -93,6 +104,7 @@
             type="button"
             class="btn btn-outline-warning"
             v-on:click="changeSlot($event)"
+            ref="b3Btn"
           >
             B3
           </button>
@@ -100,6 +112,7 @@
             type="button"
             class="btn btn-outline-warning"
             v-on:click="changeSlot($event)"
+            ref="b4Btn"
           >
             B4
           </button>
@@ -115,6 +128,7 @@
             type="button"
             class="btn btn-outline-warning"
             v-on:click="changeSlot($event)"
+            ref="c1Btn"
           >
             C1
           </button>
@@ -122,6 +136,7 @@
             type="button"
             class="btn btn-outline-warning"
             v-on:click="changeSlot($event)"
+            ref="c2Btn"
           >
             C2
           </button>
@@ -129,6 +144,7 @@
             type="button"
             class="btn btn-outline-warning"
             v-on:click="changeSlot($event)"
+            ref="c3Btn"
           >
             C3
           </button>
@@ -136,6 +152,7 @@
             type="button"
             class="btn btn-outline-warning"
             v-on:click="changeSlot($event)"
+            ref="c4Btn"
           >
             C4
           </button>
@@ -151,6 +168,7 @@
             type="button"
             class="btn btn-outline-warning"
             v-on:click="changeSlot($event)"
+            ref="d1Btn"
           >
             D1
           </button>
@@ -158,6 +176,7 @@
             type="button"
             class="btn btn-outline-warning"
             v-on:click="changeSlot($event)"
+            ref="d2Btn"
           >
             D2
           </button>
@@ -165,6 +184,7 @@
             type="button"
             class="btn btn-outline-warning"
             v-on:click="changeSlot($event)"
+            ref="d3Btn"
           >
             D3
           </button>
@@ -172,12 +192,13 @@
             type="button"
             class="btn btn-outline-warning"
             v-on:click="changeSlot($event)"
+            ref="d4Btn"
           >
             D4
           </button>
         </div>
       </div>
-      <div style="padding-bottom: 10px">Current Balance: $</div>
+      <div style="padding-bottom: 10px">Current Balance: ${{ balance.toFixed(2) }}</div>
       <div class="btn-group">
         <button
           type="button"
@@ -188,9 +209,15 @@
           Feed Money
         </button>
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#">$1</a></li>
-          <li><a class="dropdown-item" href="#">$5</a></li>
-          <li><a class="dropdown-item" href="#">$10</a></li>
+          <li v-on:click="addMoney(1)">
+            <a class="dropdown-item" href="#">$1</a>
+          </li>
+          <li v-on:click="addMoney(5)">
+            <a class="dropdown-item" href="#">$5</a>
+          </li>
+          <li v-on:click="addMoney(10)">
+            <a class="dropdown-item" href="#">$10</a>
+          </li>
         </ul>
       </div>
     </div>
@@ -239,31 +266,77 @@
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Name</th>
+            <th scope="col">
+              {{ inventoryList[startingPoint].category }} Name
+            </th>
             <th scope="col">Price</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr
+            v-on:click="
+              selectItem(
+                1,
+                inventoryList[startingPoint].slotLocation,
+                inventoryList[startingPoint].name,
+                inventoryList[startingPoint].price,
+                inventoryList[startingPoint].category,
+                inventoryList[startingPoint].inventory
+              )
+            "
+          >
             <th scope="row">{{ inventoryList[startingPoint].slotLocation }}</th>
             <td>{{ inventoryList[startingPoint].name }}</td>
             <td>{{ inventoryList[startingPoint].price }}</td>
           </tr>
-          <tr>
+          <tr
+            v-on:click="
+              selectItem(
+                2,
+                inventoryList[startingPoint + 1].slotLocation,
+                inventoryList[startingPoint + 1].name,
+                inventoryList[startingPoint + 1].price,
+                inventoryList[startingPoint + 1].category,
+                inventoryList[startingPoint + 1].inventory
+              )
+            "
+          >
             <th scope="row">
               {{ inventoryList[startingPoint + 1].slotLocation }}
             </th>
             <td>{{ inventoryList[startingPoint + 1].name }}</td>
             <td>{{ inventoryList[startingPoint + 1].price }}</td>
           </tr>
-          <tr>
+          <tr
+            v-on:click="
+              selectItem(
+                3,
+                inventoryList[startingPoint + 2].slotLocation,
+                inventoryList[startingPoint + 2].name,
+                inventoryList[startingPoint + 2].price,
+                inventoryList[startingPoint + 2].category,
+                inventoryList[startingPoint + 2].inventory
+              )
+            "
+          >
             <th scope="row">
               {{ inventoryList[startingPoint + 2].slotLocation }}
             </th>
             <td>{{ inventoryList[startingPoint + 2].name }}</td>
             <td>{{ inventoryList[startingPoint + 2].price }}</td>
           </tr>
-          <tr>
+          <tr
+            v-on:click="
+              selectItem(
+                4,
+                inventoryList[startingPoint + 3].slotLocation,
+                inventoryList[startingPoint + 3].name,
+                inventoryList[startingPoint + 3].price,
+                inventoryList[startingPoint + 3].category,
+                inventoryList[startingPoint + 3].inventory
+              )
+            "
+          >
             <th scope="row">
               {{ inventoryList[startingPoint + 3].slotLocation }}
             </th>
@@ -284,65 +357,260 @@ export default {
   name: "Home",
   data() {
     return {
-      slotLocation: "",
+      displaySlotLocation: "",
+      selectedSlotLocation: "",
+      selectedItemName: "",
+      selectedItemPrice: "",
+      selectedItemCategory: "",
+      selectedItemInventory: 0,
       visibleContainer: false,
       inventoryList: {},
       startingPoint: "",
+      balance: 0,
     };
   },
   components: {},
   methods: {
+    addMoney(int) {
+      this.balance = this.balance + int;
+    },
     changeSlot(event) {
-      this.slotLocation = event.target.innerText;
+      this.displaySlotLocation = event.target.innerText;
+      for (let index = 0; index < this.inventoryList.length; index++) {
+        if (
+          this.inventoryList[index].slotLocation == this.displaySlotLocation
+        ) {
+          this.selectedSlotLocation = this.inventoryList[index].slotLocation;
+          this.selectedItemName = this.inventoryList[index].name;
+          this.selectedItemPrice = this.inventoryList[index].price;
+          this.selectedItemCategory = this.inventoryList[index].catgory;
+          this.selectedItemInventory = this.inventoryList[index].inventory;
+        }
+      }
     },
     purchase() {
-      this.slotLocation = "";
+      if (this.balance == 0) {
+        alert("Please Feed Money Into The Machine");
+      }
+      if (this.balance > 0 && this.selectedSlotLocation == "") {
+        alert("Please Select an Item");
+      }
+      if (
+        this.balance > 0 &&
+        this.selectedSlotLocation != "" &&
+        this.balance - this.selectedItemPrice < 0
+      ) {
+        alert("Please Feed More Money To Buy Selected Item");
+      }
+      if (
+        this.balance > 0 &&
+        this.selectedSlotLocation != "" &&
+        this.balance - this.selectedItemPrice > 0
+      ) {
+        // check inventory for updates
+        for (let index = 0; index < this.inventoryList.length; index++) {
+            if (this.selectedSlotLocation == this.inventoryList[index].slotLocation) {
+              this.selectedItemInventory = this.inventoryList[index].inventory;
+            }
+          }
+        if (this.selectedItemInventory > 0) {
+          // subtracts from balance
+          this.balance = this.balance - this.selectedItemPrice;
+          // updates inventory
+          for (let index = 0; index < this.inventoryList.length; index++) {
+            if (this.selectedSlotLocation == this.inventoryList[index].slotLocation) {
+              this.inventoryList[index].inventory = this.inventoryList[index].inventory - 1
+              this.selectedItemInventory = this.inventoryList[index].inventory
+            }
+          }
+          // does the alert
+          alert("You got: " + this.selectedItemName +"\r\n" + "Quantity left of Item: " + this.selectedItemInventory);
+        } else {
+          alert("Item Out of Stock, please choose another item")
+        }
+      }
     },
-    selectItem() {
-      // this should be use on the table rows to select an item off there with a click.
-      // use the #id or class name orsomething to fire off if conditions
-      const elem = this.$refs.myBtn;
-      elem.click();
-      elem.classList.add("active");
-      setTimeout(function () {
-        elem.classList.remove("active");
-      }, 90);
+    selectItem(id, location, name, price, category, inventory) {
+      if (this.startingPoint == 0) {
+        if (id == 1) {
+          const elem = this.$refs.a1Btn;
+          elem.click();
+          elem.classList.add("active");
+          setTimeout(function () {
+            elem.classList.remove("active");
+          }, 90);
+        }
+        if (id == 2) {
+          const elem = this.$refs.a2Btn;
+          elem.click();
+          elem.classList.add("active");
+          setTimeout(function () {
+            elem.classList.remove("active");
+          }, 90);
+        }
+        if (id == 3) {
+          const elem = this.$refs.a3Btn;
+          elem.click();
+          elem.classList.add("active");
+          setTimeout(function () {
+            elem.classList.remove("active");
+          }, 90);
+        }
+        if (id == 4) {
+          const elem = this.$refs.a4Btn;
+          elem.click();
+          elem.classList.add("active");
+          setTimeout(function () {
+            elem.classList.remove("active");
+          }, 90);
+        }
+      }
+
+      if (this.startingPoint == 4) {
+        if (id == 1) {
+          const elem = this.$refs.b1Btn;
+          elem.click();
+          elem.classList.add("active");
+          setTimeout(function () {
+            elem.classList.remove("active");
+          }, 90);
+        }
+        if (id == 2) {
+          const elem = this.$refs.b2Btn;
+          elem.click();
+          elem.classList.add("active");
+          setTimeout(function () {
+            elem.classList.remove("active");
+          }, 90);
+        }
+        if (id == 3) {
+          const elem = this.$refs.b3Btn;
+          elem.click();
+          elem.classList.add("active");
+          setTimeout(function () {
+            elem.classList.remove("active");
+          }, 90);
+        }
+        if (id == 4) {
+          const elem = this.$refs.b4Btn;
+          elem.click();
+          elem.classList.add("active");
+          setTimeout(function () {
+            elem.classList.remove("active");
+          }, 90);
+        }
+      }
+
+      if (this.startingPoint == 8) {
+        if (id == 1) {
+          const elem = this.$refs.c1Btn;
+          elem.click();
+          elem.classList.add("active");
+          setTimeout(function () {
+            elem.classList.remove("active");
+          }, 90);
+        }
+        if (id == 2) {
+          const elem = this.$refs.c2Btn;
+          elem.click();
+          elem.classList.add("active");
+          setTimeout(function () {
+            elem.classList.remove("active");
+          }, 90);
+        }
+        if (id == 3) {
+          const elem = this.$refs.c3Btn;
+          elem.click();
+          elem.classList.add("active");
+          setTimeout(function () {
+            elem.classList.remove("active");
+          }, 90);
+        }
+        if (id == 4) {
+          const elem = this.$refs.c4Btn;
+          elem.click();
+          elem.classList.add("active");
+          setTimeout(function () {
+            elem.classList.remove("active");
+          }, 90);
+        }
+      }
+
+      if (this.startingPoint == 12) {
+        if (id == 1) {
+          const elem = this.$refs.d1Btn;
+          elem.click();
+          elem.classList.add("active");
+          setTimeout(function () {
+            elem.classList.remove("active");
+          }, 90);
+        }
+        if (id == 2) {
+          const elem = this.$refs.d2Btn;
+          elem.click();
+          elem.classList.add("active");
+          setTimeout(function () {
+            elem.classList.remove("active");
+          }, 90);
+        }
+        if (id == 3) {
+          const elem = this.$refs.d3Btn;
+          elem.click();
+          elem.classList.add("active");
+          setTimeout(function () {
+            elem.classList.remove("active");
+          }, 90);
+        }
+        if (id == 4) {
+          const elem = this.$refs.d4Btn;
+          elem.click();
+          elem.classList.add("active");
+          setTimeout(function () {
+            elem.classList.remove("active");
+          }, 90);
+        }
+        this.selectedSlotLocation = location;
+        this.selectedItemName = name;
+        this.selectedItemPrice = price;
+        this.selectedItemCategory = category;
+        this.selectedItemInventory = inventory;
+      }
     },
     toggleContainer(event) {
       if (event.target.id == "chips") {
         this.$el.querySelector("#vmPicker").scrollIntoView();
         this.startingPoint = 0;
 
-        // if the container is already visible and this element has been selected 
+        // if the container is already visible and this element is already selected(THIS SHOULD HIDE THE CONTAINER AND REMOVE THE "SELECTED" CLASS)
         if (
           this.visibleContainer == true &&
-          (event.target.classList.contains("selected"))
+          event.target.classList.contains("selected")
         ) {
           this.visibleContainer = false;
           event.target.classList.remove("selected");
         }
 
-      // if the container is already visible and this element has not been selected
+        // if the container is already visible and this element has not been selected(WHEN YOU SWITCH FROM ONE SNACK TO ANOTHER)
         if (
           this.visibleContainer == true &&
-          !(event.target.classList.contains("selected"))
+          !event.target.classList.contains("selected")
         ) {
           event.target.classList.add("selected");
         }
 
-      // if this container is not visible and this element has not been selected
+        // if this container is not visible and this element has not been selected(HAPPY PATH)
         if (
           this.visibleContainer == false &&
-          !(event.target.classList.contains("select"))
+          !event.target.classList.contains("select")
         ) {
           this.visibleContainer = true;
           event.target.classList.add("selected");
         }
 
-        // if this container is not visible and this element has been selected (WE DON'T WANT THIS CONDITION)
+        // if this container is not visible and this element is already seleced selected (WE DON'T WANT THIS CONDITION TO HAPPEN IN THE FIRST PLACE)
         if (
           this.visibleContainer == false &&
-          (event.target.classList.contains("select"))
+          event.target.classList.contains("select")
         ) {
           this.visibleContainer = true;
           event.target.classList.add("selected");
@@ -354,7 +622,7 @@ export default {
         this.startingPoint = 4;
         if (
           this.visibleContainer == true &&
-          (event.target.classList.contains("selected"))
+          event.target.classList.contains("selected")
         ) {
           this.visibleContainer = false;
           event.target.classList.remove("selected");
@@ -362,14 +630,14 @@ export default {
 
         if (
           this.visibleContainer == true &&
-          !(event.target.classList.contains("selected"))
+          !event.target.classList.contains("selected")
         ) {
           event.target.classList.add("selected");
         }
 
         if (
           this.visibleContainer == false &&
-          !(event.target.classList.contains("select"))
+          !event.target.classList.contains("select")
         ) {
           this.visibleContainer = true;
           event.target.classList.add("selected");
